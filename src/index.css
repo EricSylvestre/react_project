@@ -3,11 +3,23 @@ header {
 }
 
 
-.btn-info{
+.btn-info {
   display: block;
   color: yellow;
   font-style: bold;
   background-color: black;
 }
 
+.btn-info:hover, .btn-info:focus {
+  background-color: yellow;
+  color: black;
+}
+
+.contacts {
+  margin-left: 15px;
+}
+
+.select {
+  font-size: 24px;
+}
 

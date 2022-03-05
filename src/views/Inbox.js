@@ -1,8 +1,10 @@
-import React, {useContext} from 'react'
+import React, {Profiler, useContext} from 'react'
 import { MessageList } from '../components/MessageList'
 import { DataContext } from '../contexts/DataProvider'
-import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, doc, getFirestore, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthProvider'
+import { Link } from 'react-router-dom'
+
 
 export const Inbox = () => 
 {
@@ -22,8 +24,33 @@ export const Inbox = () =>
 
     e.target.status.value = ''
   }
+
+
   return (
       <React.Fragment>
+
+      {
+        currentUser.loggedIn
+          ? 
+      <label className="select" for="contacts">Select A Recipient:</label>
+          : null
+      }
+      {
+        currentUser.loggedIn
+          ? 
+
+      <select className="contacts" id="contacts">
+        <option value="">User1</option>
+                        
+        <option value="">User2</option>
+      </select>
+          : null
+      }
+
+      
+
+
+      
       {
         currentUser.loggedIn
           ?

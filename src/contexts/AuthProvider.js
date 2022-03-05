@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { browserLocalPersistence, getAuth, GoogleAuthProvider, onAuthStateChanged, setPersistence, signInWithPopup, signOut } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
+
 export const AuthContext = createContext()
 
 // to make your own React Hook
@@ -37,6 +38,10 @@ export const AuthProvider = ({ children }) => {
             })
     }
 
+    function chooseSender(){
+        
+    }
+
     useEffect(() => {
         // console.log( currentUser )
         onAuthStateChanged(auth, (user) => {
@@ -63,6 +68,22 @@ export const AuthProvider = ({ children }) => {
 
     const values = {
         signIn, currentUser, logOut
+    }
+
+
+    
+
+    
+    const user = auth.currentUser;
+
+    if (user !== null) {
+        user.providerData.forEach((profile) => {
+            console.log("Sign-in provider: " + profile.providerId);
+            console.log("  Provider-specific UID: " + profile.uid);
+            console.log("  Name: " + profile.displayName);
+            console.log("  Email: " + profile.email);
+            console.log("  Photo URL: " + profile.photoURL);
+        });
     }
 
     return (
