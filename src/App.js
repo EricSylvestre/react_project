@@ -7,6 +7,7 @@ import { Inbox } from './views/Inbox'
 import { Sent } from './views/Sent'
 import { Trash } from './views/Trash'
 import { MessageSingle } from './views/MessageSingle'
+import { SentMessageSingle } from './views/SentMessageSingle'
 import './index.css'
 
 
@@ -68,6 +69,7 @@ export const App = () => {
                     <Route exact path='/sent' element={<Sent />} />
                     <Route exact path='/trash' element={<Trash />} />
                     <Route exact path='/message/:id' element={<MessageSingle />} />
+                    <Route exact path='/SentMessage/:id' element={<SentMessageSingle />} />
                 </Routes >
                 
             </main>

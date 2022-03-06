@@ -7,13 +7,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthProvider';
 import { DataProvider } from './contexts/DataProvider';
 import {firebaseApp} from './firebase/config';
+import { SentDataProvider} from './contexts/SentDataProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <DataProvider>
-          <App />
+          <SentDataProvider>
+            <App />
+          </SentDataProvider>
         </DataProvider>
       </AuthProvider>
     </BrowserRouter>

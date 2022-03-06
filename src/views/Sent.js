@@ -1,15 +1,21 @@
 import React, { Profiler, useContext } from 'react'
-import { MessageList } from '../components/MessageList'
 import { DataContext } from '../contexts/DataProvider'
 import { addDoc, collection, doc, getFirestore, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthProvider'
 import { Link } from 'react-router-dom'
+import { SentDataContext} from '../contexts/SentDataProvider'
+import { MessageList } from '../components/MessageList'
+
+
+
+
+
 
 
 export const Sent = () => 
 {
   const { currentUser } = useAuth()
-  const { messages, setMessages, addMessage } = useContext(DataContext)
+  const { SentMessages, setMessage, addSentMessage } = useContext(SentDataContext)
   const db = getFirestore()
 
   const handleSubmit = async (e) => {
@@ -20,7 +26,7 @@ export const Sent = () =>
       dateCreated: serverTimestamp(),
     }
 
-    addMessage(formData)
+    addSentMessage(formData)
 
     e.target.status.value = ''
   }
@@ -42,7 +48,7 @@ export const Sent = () =>
           <div className="row">
             <div className="col-12">
               <ul className="list-group">
-                <MessageList messages={messages} />
+                <MessageList SentMessages={SentMessages} />
               </ul>
             </div>
           </div>

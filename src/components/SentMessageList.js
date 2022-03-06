@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
-import { Message } from './Message'
 import { DataContext } from '../contexts/DataProvider'
 import { SentMessage } from './SentMessage.js'
 
-export const MessageList = (props) => {
+export const SentMessageList = (props) => {
     const { SentMessages } = useContext(DataContext)
 
     return (

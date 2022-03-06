@@ -38,9 +38,13 @@ export const DataProvider = (props) => {
     )
 
 
+
+
     useEffect(() => {
         getMessages()
     }, [getMessages])
+
+    
 
     // useEffect(() => {
     //     console.log(firebaseApp)

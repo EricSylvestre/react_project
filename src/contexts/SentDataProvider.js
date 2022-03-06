@@ -2,20 +2,20 @@ import { getDocs, getDoc, getFirestore, query, collectionGroup } from "firebase/
 import { createContext, useCallback, useEffect, useState } from "react";
 
 
-export const DataContextSent = createContext()
+export const SentDataContext = createContext()
 
 export const SentDataProvider = (props) => {
 
-    const [SentMessages, setSent] = useState([])
+    const [SentMessages, setSentMessages] = useState([])
 
     const db = getFirestore()
 
     // loop over posts collection and setPosts
     const getSentMessages = useCallback(
         async () => {
-            const q = query(collectionGroup(db, 'SentMessages'))
+            const s = query(collectionGroup(db, 'SentMessages'))
 
-            const querySnapshot = await getDocs(q)
+            const querySnapshot = await getDocs(s)
 
             let newSentMessages = [];
             querySnapshot.forEach(async doc => {
@@ -30,7 +30,7 @@ export const SentDataProvider = (props) => {
                         ...userRef.data()
                     }
                 })
-                setSent(newSentMessages)
+                setSentMessages(newSentMessages)
             })
 
             return querySnapshot;
@@ -39,23 +39,27 @@ export const SentDataProvider = (props) => {
     )
 
 
+
+
     useEffect(() => {
         getSentMessages()
     }, [getSentMessages])
+
+
 
     // useEffect(() => {
     //     console.log(firebaseApp)
     // }, [])
 
-    const values = {
-        SentMessages, setSent
+    const sentValues = {
+        SentMessages, setSentMessages
     }
 
 
 
     return (
-        <DataContext.Provider value={values} >
+        <SentDataContext.Provider value={sentValues} >
             {props.children}
-        </DataContext.Provider>
+        </SentDataContext.Provider>
     )
 }
