@@ -4,7 +4,7 @@ import { addDoc, collection, doc, getFirestore, serverTimestamp } from 'firebase
 import { useAuth } from '../contexts/AuthProvider'
 import { Link } from 'react-router-dom'
 import { SentDataContext} from '../contexts/SentDataProvider'
-import { MessageList } from '../components/MessageList'
+import { SentMessageList } from '../components/MessageList'
 
 
 
@@ -48,7 +48,7 @@ export const Sent = () =>
           <div className="row">
             <div className="col-12">
               <ul className="list-group">
-                <MessageList SentMessages={SentMessages} />
+                <SentMessageList SentMessages={SentMessages} />
               </ul>
             </div>
           </div>

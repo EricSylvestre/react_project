@@ -8,6 +8,7 @@ import { AuthProvider } from './contexts/AuthProvider';
 import { DataProvider } from './contexts/DataProvider';
 import {firebaseApp} from './firebase/config';
 import { SentDataProvider} from './contexts/SentDataProvider';
+import { SentMessageList } from './components/SentMessageList';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +16,9 @@ ReactDOM.render(
       <AuthProvider>
         <DataProvider>
           <SentDataProvider>
-            <App />
+           
+              <App />
+            
           </SentDataProvider>
         </DataProvider>
       </AuthProvider>

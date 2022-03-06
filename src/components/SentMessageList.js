@@ -7,7 +7,7 @@ export const SentMessageList = (props) => {
 
     return (
         <React.Fragment>
-            {SentMessages.map(p => <SentMessage SentMessage={p} key={p.id} />)}
+            {SentMessages.map(p => <SentMessages SentMessages={p} key={p.id} />)}
         </React.Fragment>
     )
 }

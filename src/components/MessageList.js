@@ -17,6 +17,16 @@ export const MessageList = (props) =>
     )
 }
 
+export const SentMessageList = (props) => {
+    const { SentMessages } = useContext(SentDataContext)
+
+    return (
+        <React.Fragment>
+            {SentMessages.map(p => <SentMessage SentMessage={p} key={p.id} />)}
+        </React.Fragment>
+    )
+}
+
 
 
    
