@@ -1,19 +1,28 @@
 import React, {Profiler, useContext} from 'react'
 import { MessageList } from '../components/MessageList'
-import { DataContext } from '../contexts/DataProvider'
+import { DataContext, DataProvider } from '../contexts/DataProvider'
 import { addDoc, collection, doc, getFirestore, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthProvider'
 import { Link } from 'react-router-dom'
+import { query, collectionGroup } from 'firebase/firestore'
+import { SelectUserDataProvider } from '../contexts/SelectUserDataProvider'
+import { getAdditionalUserInfo } from 'firebase/auth'
+
 
 
 export const Inbox = () => 
 {
-  const { currentUser } = useAuth()
-  const { messages, setMessages, addMessage } = useContext(DataContext)
   const db = getFirestore()
+  const { currentUser } = useAuth()
+  const { users } = query(collectionGroup(db, 'users'))
+  const { messages, setMessages, setSentMessages, addMessage } = useContext(DataContext)
+  
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
+    e.console.log('this works');
+    setMessages(e.target.value);
+    
 
     let formData = {
       body: e.target.status.value,
@@ -24,6 +33,8 @@ export const Inbox = () =>
 
     e.target.status.value = ''
   }
+
+  
 
 
   return (
@@ -40,7 +51,7 @@ export const Inbox = () =>
           ? 
 
       <select className="contacts" id="contacts">
-        <option value="">User1</option>
+        <option value="">{[users]}</option>
                         
         <option value="">User2</option>
       </select>
@@ -63,7 +74,8 @@ export const Inbox = () =>
             </div>
           </div>
           <div className="col-2">
-            <input type="submit" value="Send It" className='btn btn-info btn-block' />
+            <input 
+                  type="submit" value="Send It" className='btn btn-info btn-block' onSubmit={(e) => handleSubmit(e)}/>
           </div>
         </div>
       </form>
@@ -75,7 +87,7 @@ export const Inbox = () =>
         currentUser.loggedIn
           ?
       
-      <div className="row">
+      <div className="row" >
         <div className="col-12">
           <ul className="list-group">
             <MessageList messages={messages} />

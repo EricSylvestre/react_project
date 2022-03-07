@@ -8,10 +8,6 @@ import { SentMessageList } from '../components/MessageList'
 
 
 
-
-
-
-
 export const Sent = () => 
 {
   const { currentUser } = useAuth()

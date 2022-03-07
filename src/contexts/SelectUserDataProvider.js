@@ -2,34 +2,35 @@ import { getDocs, getDoc, getFirestore, query, collectionGroup } from "firebase/
 import { createContext, useCallback, useEffect, useState } from "react";
 
 
-export const DataContext = createContext()
+export const DataContextUser = createContext()
 
-export const DataProvider = (props) => {
+export const SelectUserDataProvider = (props) => {
 
-    const [messages, setMessages, currentUser] = useState([])
+    const [messages, setUser, currentUser, user] = useState([])
 
     const db = getFirestore()
 
     // loop over posts collection and setPosts
-    const getMessages = useCallback(
+    const getUser = useCallback(
         async () => {
-            const q = query(collectionGroup(db, 'messages'))
+            const q = query(collectionGroup(db, 'users'))
 
             const querySnapshot = await getDocs(q)
 
-            let newMessages = [];
+            let newUser = [];
             querySnapshot.forEach(async doc => {
                 const userRef = await getDoc(doc.ref.parent.parent);
                 console.log(userRef.data())
 
-                newMessages.push({
+                newUser.push({
                     id: doc.id,
                     ...doc.data(),
                     user: {
-                    id:userRef.id,
-                     ...userRef.data() }
+                        id: userRef.id,
+                        ...userRef.data()
+                    }
                 })
-                setMessages(newMessages)
+                setUser(newUser)
             })
 
             return querySnapshot;
@@ -41,24 +42,24 @@ export const DataProvider = (props) => {
 
 
     useEffect(() => {
-        getMessages()
-    }, [getMessages])
+        getUser()
+    }, [getUser])
 
-    
+
 
     // useEffect(() => {
     //     console.log(firebaseApp)
     // }, [])
 
     const values = {
-        messages, setMessages, currentUser
+         currentUser, user, setUser
     }
-      
+
 
 
     return (
-        <DataContext.Provider value={values} >
+        <DataContextUser.Provider value={values} >
             {props.children}
-        </DataContext.Provider>
+        </DataContextUser.Provider>
     )
 }

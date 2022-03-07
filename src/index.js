@@ -10,15 +10,14 @@ import {firebaseApp} from './firebase/config';
 import { SentDataProvider} from './contexts/SentDataProvider';
 import { SentMessageList } from './components/SentMessageList';
 
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <DataProvider>
           <SentDataProvider>
-           
               <App />
-            
           </SentDataProvider>
         </DataProvider>
       </AuthProvider>

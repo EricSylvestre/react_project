@@ -12,8 +12,6 @@ import './index.css'
 
 
 export const App = () => {
-
-
     const { signIn, currentUser, logOut } = useAuth()
 
     return (    

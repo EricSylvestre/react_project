@@ -7,12 +7,10 @@ import { SentDataContext } from '../contexts/SentDataProvider'
 export const MessageList = (props) =>
 {
     const {messages} = useContext(DataContext)
-    const { SentMessages } = useContext(SentDataContext)
 
     return (
         <React.Fragment>
             { messages.map(p => <Message message={p} key={p.id} />)}
-            { SentMessages.map(p => <SentMessage SentMessage={p} key={p.id} />)}
         </React.Fragment>
     )
 }
