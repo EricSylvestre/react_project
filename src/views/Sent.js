@@ -9,6 +9,9 @@ import { SentMessageList } from '../components/MessageList'
 
 
 
+
+
+
 export const Sent = () => 
 {
   const { currentUser } = useAuth()
@@ -16,25 +19,14 @@ export const Sent = () =>
   const db = getFirestore()
   const [filteredSentMessages, setFilteredSentMessages] = useState([])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    let formData = {
-      body: e.target.status.value,
-      dateCreated: serverTimestamp(),
-    }
-
-    addSentMessages(formData)
-
-    e.target.status.value = ''
-  }
 
 
   useEffect(() => {
     let filteredSentMessages = SentMessages.filter(m => m.user.id === currentUser.id)
     setFilteredSentMessages(filteredSentMessages)
-    console.log(filteredSentMessages)
   }, [currentUser.id, SentMessages])
+
+  
 
 
   return (

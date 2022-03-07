@@ -20,7 +20,7 @@ export const SentDataProvider = (props) => {
             let newSentMessages = [];
             querySnapshot.forEach(async doc => {
                 const userRef = await getDoc(doc.ref.parent.parent);
-              
+                console.log(userRef.data())
 
                 newSentMessages.push({
                     id: doc.id,
@@ -53,7 +53,6 @@ export const SentDataProvider = (props) => {
                 id: newDoc.id,
                 ...newDoc.data(),
                 user: {
-                    id: currentUser.id,
                     ...userRef.data()
                 }
             }
@@ -76,7 +75,7 @@ export const SentDataProvider = (props) => {
     // }, [])
 
     const sentValues = {
-        SentMessages, setSentMessages, addSent
+        SentMessages, setSentMessages
     }
 
 

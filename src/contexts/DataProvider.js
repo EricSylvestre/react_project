@@ -1,20 +1,25 @@
-import { getDocs, getDoc, getFirestore, query, collectionGroup } from "firebase/firestore";
+
+import { getDocs, getDoc, getFirestore, query, collectionGroup, collection, addDoc, orderBy, doc, updateDoc, setDoc } from "firebase/firestore";
 import { createContext, useCallback, useEffect, useState } from "react";
+import { useAuth } from "./AuthProvider";
 
 
 export const DataContext = createContext()
 
-export const DataProvider = (props) => {
+export const DataProvider = (props) => 
+{
 
-    const [messages, setMessages, currentUser] = useState([])
-
+    const [messages, setMessages] = useState([])
+    const { currentUser} = useAuth()
     const db = getFirestore()
 
     // loop over posts collection and setPosts
     const getMessages = useCallback(
         async () => {
-            const q = query(collectionGroup(db, 'messages'))
-
+            const q = query(
+            collectionGroup(db, 'messages'),
+            orderBy('dateCreated', 'desc') 
+            )
             const querySnapshot = await getDocs(q)
 
             let newMessages = [];
@@ -37,6 +42,33 @@ export const DataProvider = (props) => {
         [db],
     )
 
+    const addMessage = async (formData) => {
+        let collectionRef = await collection(db, `users/${currentUser.id}/messages`)
+
+        // once we try to add the new document to firebase, we can grab all of its information here
+        // await addDoc(collectionRef, formData)
+        const docRef = await addDoc(collectionRef, formData)
+
+        // after we created a new document inside Firebase, we can then grab it using getDoc
+        const newDoc = await getDoc(docRef)
+
+        // get access to the deeply nested document's current user and grab their data so we can use it to pass into our new posts list
+        const userRef = await getDoc(docRef.parent.parent)
+
+        setMessages([
+            {
+                id: newDoc.id,
+                ...newDoc.data(),
+                user: {
+                    id: currentUser.id,
+                    ...userRef.data()
+                }
+
+            },
+            ...messages
+        ])
+    }
+
 
 
 
@@ -51,7 +83,7 @@ export const DataProvider = (props) => {
     // }, [])
 
     const values = {
-        messages, setMessages, currentUser
+        messages, setMessages, currentUser, addMessage
     }
       
 
