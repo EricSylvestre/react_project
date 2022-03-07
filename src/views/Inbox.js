@@ -5,7 +5,7 @@ import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/fire
 import { useAuth } from '../contexts/AuthProvider'
 import { Link } from 'react-router-dom'
 import { query} from 'firebase/firestore'
-import { getDatabase, ref, equalTo } from "firebase/database";
+import { getDatabase, ref,  equalTo } from "firebase/database";
 
 
 

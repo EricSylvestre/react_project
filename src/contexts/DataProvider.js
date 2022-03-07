@@ -18,7 +18,7 @@ export const DataProvider = (props) =>
         async () => {
             const q = query(
             collectionGroup(db, 'messages'),
-            orderBy('dateCreated', 'desc') 
+             
             )
             const querySnapshot = await getDocs(q)
 
@@ -31,10 +31,10 @@ export const DataProvider = (props) =>
                     id: doc.id,
                     ...doc.data(),
                     user: {
-                    id:userRef.id,
+                    id: userRef.id,
                      ...userRef.data() }
                 })
-                setMessages(newMessages)
+                setMessages(messages.concat(newMessages))
             })
 
             return querySnapshot;
@@ -43,7 +43,7 @@ export const DataProvider = (props) =>
     )
 
     const addMessage = async (formData) => {
-        let collectionRef = await collection(db, `users/${currentUser.id}/messages`)
+        let collectionRef = await collection(db, `users/${currentUser.id}/SentMessages`)
 
         // once we try to add the new document to firebase, we can grab all of its information here
         // await addDoc(collectionRef, formData)

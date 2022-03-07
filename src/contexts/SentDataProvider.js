@@ -38,26 +38,7 @@ export const SentDataProvider = (props) => {
         [db],
     )
 
-    const addSent = async (formData) => 
-    {
-        let collectionRef = await collection(db, `users/${ currentUser.id }/SentMessages`)
-
-        const docRef = await addDoc( collectionRef, formData )
-
-        const newDoc = await getDoc(docRef)
-
-        const userRef = await getDoc( docRef.parent.parent )
-
-        setSentMessages([
-            {
-                id: newDoc.id,
-                ...newDoc.data(),
-                user: {
-                    ...userRef.data()
-                }
-            }
-        ])
-    }
+    
 
 
 
