@@ -20,7 +20,7 @@ export const DataProvider = (props) => {
             let newMessages = [];
             querySnapshot.forEach(async doc => {
                 const userRef = await getDoc(doc.ref.parent.parent);
-                console.log(userRef.data())
+                
 
                 newMessages.push({
                     id: doc.id,

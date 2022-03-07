@@ -1,4 +1,4 @@
-import { getDocs, getDoc, getFirestore, query, collectionGroup } from "firebase/firestore";
+import { getDocs, getDoc, getFirestore, query, collectionGroup, collection, addDoc } from "firebase/firestore";
 import { createContext, useCallback, useEffect, useState } from "react";
 
 
@@ -6,7 +6,7 @@ export const SentDataContext = createContext()
 
 export const SentDataProvider = (props) => {
 
-    const [SentMessages, setSentMessages] = useState([])
+    const [SentMessages, setSentMessages, currentUser] = useState([])
 
     const db = getFirestore()
 
@@ -20,7 +20,7 @@ export const SentDataProvider = (props) => {
             let newSentMessages = [];
             querySnapshot.forEach(async doc => {
                 const userRef = await getDoc(doc.ref.parent.parent);
-                console.log(userRef.data())
+              
 
                 newSentMessages.push({
                     id: doc.id,
@@ -38,6 +38,30 @@ export const SentDataProvider = (props) => {
         [db],
     )
 
+    const addSent = async (formData) => 
+    {
+        let collectionRef = await collection(db, `users/${ currentUser.id }/SentMessages`)
+
+        const docRef = await addDoc( collectionRef, formData )
+
+        const newDoc = await getDoc(docRef)
+
+        const userRef = await getDoc( docRef.parent.parent )
+
+        setSentMessages([
+            {
+                id: newDoc.id,
+                ...newDoc.data(),
+                user: {
+                    id: currentUser.id,
+                    ...userRef.data()
+                }
+            }
+        ])
+    }
+
+
+
 
 
 
@@ -52,7 +76,7 @@ export const SentDataProvider = (props) => {
     // }, [])
 
     const sentValues = {
-        SentMessages, setSentMessages
+        SentMessages, setSentMessages, addSent
     }
 
 

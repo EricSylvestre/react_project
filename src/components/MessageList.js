@@ -10,7 +10,7 @@ export const MessageList = (props) =>
 
     return (
         <React.Fragment>
-            { messages.map(p => <Message message={p} key={p.id} />)}
+            { props.messages.map(p => <Message message={p} key={p.id} />)}
         </React.Fragment>
     )
 }
@@ -20,7 +20,7 @@ export const SentMessageList = (props) => {
 
     return (
         <React.Fragment>
-            {SentMessages.map(p => <SentMessage SentMessage={p} key={p.id} />)}
+            {props.SentMessages.map(p => <SentMessage SentMessage={p} key={p.id} />)}
         </React.Fragment>
     )
 }

@@ -1,4 +1,4 @@
-import React, {Profiler, useContext} from 'react'
+import React, {Profiler, useContext, useEffect, useState} from 'react'
 import { MessageList } from '../components/MessageList'
 import { DataContext, DataProvider } from '../contexts/DataProvider'
 import { addDoc, collection, doc, getFirestore, serverTimestamp } from 'firebase/firestore'
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 import { query, collectionGroup } from 'firebase/firestore'
 import { SelectUserDataProvider } from '../contexts/SelectUserDataProvider'
 import { getAdditionalUserInfo } from 'firebase/auth'
+import { SentDataContext } from '../contexts/SentDataProvider'
+
 
 
 
@@ -15,13 +17,16 @@ export const Inbox = () =>
   const db = getFirestore()
   const { currentUser } = useAuth()
   const { users } = query(collectionGroup(db, 'users'))
-  const { messages, setMessages, setSentMessages, addMessage } = useContext(DataContext)
+  const { messages, setMessages, addMessage } = useContext(DataContext)
+  const { setSentMessages, addSent, addSentMessage } = useContext(SentDataContext)
+  const [filteredMessages, setFilteredMessages] = useState([])
+
   
 
   const handleSubmit = async (e) => {
     // e.preventDefault()
-    e.console.log('this works');
-    setMessages(e.target.value);
+    setSentMessages(e.target.value);
+    addSent(e.target.value);
     
 
     let formData = {
@@ -29,12 +34,16 @@ export const Inbox = () =>
       dateCreated: serverTimestamp(),
     }
 
-    addMessage(formData)
+    addSentMessage(formData)
 
     e.target.status.value = ''
   }
 
-  
+  useEffect(() => {
+    let filteredMessages = messages.filter( m => m.user.id === currentUser.id)
+    setFilteredMessages(filteredMessages)
+    console.log(filteredMessages)
+  }, [ currentUser.id, messages ])
 
 
   return (
@@ -90,7 +99,7 @@ export const Inbox = () =>
       <div className="row" >
         <div className="col-12">
           <ul className="list-group">
-            <MessageList messages={messages} />
+            <MessageList messages={filteredMessages} />
           </ul>
         </div>
       </div>
