@@ -15,7 +15,7 @@ export const Inbox = () =>
 {
   const db = getFirestore()
   const { currentUser } = useAuth()
-  const { messages, addMessage } = useContext(DataContext)
+  const { messages, addSentMessage } = useContext(DataContext)
   // const { setSentMessage, addSent, addSentMessages, SentMessages } = useContext(SentDataContext)
   const [filteredMessages, setFilteredMessages] = useState([])
 
@@ -49,7 +49,7 @@ export const Inbox = () =>
 
     // console.log(formData)
 
-    addMessage(formData)
+    addSentMessage(formData)
 
     e.target.status.value= ''
     

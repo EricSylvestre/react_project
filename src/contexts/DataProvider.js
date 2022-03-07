@@ -9,7 +9,7 @@ export const DataContext = createContext()
 export const DataProvider = (props) => 
 {
 
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages, setSentMessages, SentMessages] = useState([])
     const { currentUser} = useAuth()
     const db = getFirestore()
 
@@ -42,7 +42,7 @@ export const DataProvider = (props) =>
         [db],
     )
 
-    const addMessage = async (formData) => {
+    const addSentMessage = async (formData) => {
         let collectionRef = await collection(db, `users/${currentUser.id}/SentMessages`)
 
         // once we try to add the new document to firebase, we can grab all of its information here
@@ -55,7 +55,7 @@ export const DataProvider = (props) =>
         // get access to the deeply nested document's current user and grab their data so we can use it to pass into our new posts list
         const userRef = await getDoc(docRef.parent.parent)
 
-        setMessages([
+        setSentMessages([
             {
                 id: newDoc.id,
                 ...newDoc.data(),
@@ -65,7 +65,7 @@ export const DataProvider = (props) =>
                 }
 
             },
-            ...messages
+            ...SentMessages
         ])
     }
 
@@ -83,7 +83,7 @@ export const DataProvider = (props) =>
     // }, [])
 
     const values = {
-        messages, setMessages, currentUser, addMessage
+        messages, setSentMessages, currentUser, addSentMessage
     }
       
 
